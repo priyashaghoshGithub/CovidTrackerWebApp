@@ -12,7 +12,7 @@ using System.Text.Json;
 
 namespace CovidTrackerAppTest
 {
-    public class CovidDataServiceTests
+    public class CovidDataWebAppTests
     {
         [Fact]
         public async void GetCovidDataAsync_SuccessResponse()
@@ -22,11 +22,14 @@ namespace CovidTrackerAppTest
             var expectedCovidData = new CovidDataModel
             {
                 cases = 10000,
-                recovered = 900
+                recovered = 900,
+                deaths =300,
+                active =100,
+                population =100000,
+                tests =500
             };
 
             //Mocking the Configuration , Logger and HttpClient 
-
             var configurationMock = new Mock<IConfiguration>();
             configurationMock.SetupGet(a => a["AppSettings:CovidApiUrl"]).Returns("https://disease.sh/v3/covid-19/all");
             var loggerMock = new Mock<ILogger<CovidDataService>>();
@@ -55,6 +58,11 @@ namespace CovidTrackerAppTest
             var model = Assert.IsType<CovidDataModel>(viewResult.Model);
             Assert.NotNull(result);
             Assert.Equal(expectedCovidData.cases, model.cases);
+            Assert.Equal(expectedCovidData.deaths, model.deaths);
+            Assert.Equal(expectedCovidData.active, model.active);
+            Assert.Equal(expectedCovidData.tests, model.tests);
+            Assert.Equal(expectedCovidData.population, model.population);
+            Assert.Equal(expectedCovidData.recovered, model.recovered);
         }
 
         [Fact]
