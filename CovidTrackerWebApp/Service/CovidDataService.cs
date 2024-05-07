@@ -3,7 +3,9 @@ using CovidTrackerWebApp.Models;
 using System.Text.Json;
 
 namespace CovidTrackerWebApp.Service
-{
+{/// <summary>
+/// Calling an External Covid Data API in the service.
+/// </summary>
     public class CovidDataService : ICovidDataService
     {
         #region Private Variables
@@ -31,7 +33,7 @@ namespace CovidTrackerWebApp.Service
             try
             {
                 //Get the Api Url from app settings
-                var urlFromConfig = _configuration["AppSettings:CovidApiUrl"];            
+                var urlFromConfig = _configuration[ConstantParams.Api_Url];            
                 if (urlFromConfig != null)
                 {
                     Uri apiUrl = new Uri(urlFromConfig);
@@ -45,22 +47,22 @@ namespace CovidTrackerWebApp.Service
                         //Read and deserialize the JSON response
                         string responseContent = httpResponse.Content.ReadAsStringAsync().Result;
                         covidDataResponse = JsonSerializer.Deserialize<CovidDataModel>(responseContent);
-                        _logger.LogInformation("Successfully fetched COVID-19 data. Status code: {0}", httpResponse.StatusCode);
+                        _logger.LogInformation(ConstantParams.SucessMessagefromHttpResponse, httpResponse.StatusCode);
                     }
                     else
                     {
-                        _logger.LogError("Failed to fetch COVID-19 data. Status code: {0}", httpResponse.StatusCode);
+                        _logger.LogError(ConstantParams.FailureMessagefromHttpResponse, httpResponse.StatusCode);
 
                     }
                 }
                 else
                 {
-                    _logger.LogError("Covid API URL is not configured.");
+                    _logger.LogError(ConstantParams.ApiUrlNotConfigured);
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError("An error occurred while fetching COVID-19 data: {0}", ex.Message);
+                _logger.LogError(ConstantParams.ErrorfromHttpResponse, ex.Message);
             }
             return covidDataResponse;
         }

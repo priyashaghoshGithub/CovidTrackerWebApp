@@ -30,15 +30,14 @@ namespace CovidTrackerWebApp.Controllers
             if (covidData != null)
             {
                 //Pass the data to the view
-                _logger.LogInformation("Success Response COVID-19 data");
+                _logger.LogInformation(ConstantParams.SuccessResponse);
                 return View(covidData);
             }
             else
             {
-                _logger.LogInformation("Failed to fetch COVID-19 data");
-                ViewBag.Error = "Failed to fetch COVID-19 data.";
+                _logger.LogInformation(ConstantParams.FailureResponse);
+                ViewBag.Error = ConstantParams.FailureResponse;
                 return View();
-
             }
 
         }
