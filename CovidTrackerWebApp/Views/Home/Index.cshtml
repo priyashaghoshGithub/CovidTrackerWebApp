@@ -1,0 +1,62 @@
+﻿@model CovidTrackerWebApp.Models.CovidDataModel
+@{
+    ViewBag.Title = "Covid-19 Data";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>COVID-19 Tracker</h2>
+
+@if (ViewBag.Error != null)
+{
+    <p>@ViewBag.Error</p>
+}
+else
+{
+    <div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <td>Property</td>
+                    <td>Value</td>
+                </tr>
+            </thead>
+            
+            <tbody>
+                <tr>
+                    <td>Total Population </td>
+                    <td>@Model.population</td>
+                </tr>
+                <tr>
+                    <td>Total Cases</td>
+                    <td>@Model.cases</td>
+                </tr>
+                <tr>
+                    <td>Total Deaths</td>
+                    <td>@Model.deaths</td>
+                </tr>
+                <tr>
+                    <td>Total Recovered</td>
+                    <td>@Model.recovered</td>
+                </tr>               
+                <tr>
+                    <td>Total Tests</td>
+                    <td>@Model.tests</td>
+                </tr>
+                <tr>
+                    <td>Total AffectedCountries</td>
+                    <td>@Model.affectedCountries</td>
+                </tr>
+                <tr>
+                    <td>Total Active</td>
+                    <td>@Model.active</td>
+                </tr>
+                <tr>
+                    <td>Last Updated</td>
+                    <td>@DateTimeOffset.FromUnixTimeMilliseconds((long)Model.updated).DateTime</td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+
+}
